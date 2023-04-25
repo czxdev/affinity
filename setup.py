@@ -34,10 +34,10 @@ doclines = __doc__.splitlines()
 VERSION = '0.1.0'
 
 ext = []
-if sys.platform in ('linux2',):
+if sys.platform in ('linux',):
     ext.append(
-        Extension(name='affinity._affinity',
-                  sources=['affinity/_affinity.c'])
+        Extension(name='affinity.affinity',
+                  sources=['affinity/affinity.c'])
         )
 
 setup(
@@ -49,7 +49,7 @@ setup(
     url="http://cheeseshop.python.org/pypi/affinity",
     download_url="http://cheeseshop.python.org/packages/source/a/affinity/affinity-%s.tar.gz" % VERSION,
     description=doclines[0],
-    classifiers=filter(None, classifiers.split("\n")),
+    classifiers=classifiers.split("\n"),
     long_description="\n".join(doclines[2:]),
     packages=find_packages(),
     ext_modules=ext,

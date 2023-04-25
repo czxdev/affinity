@@ -61,12 +61,12 @@ set_process_affinity_mask(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef methods[] = {
-  {"get_process_affinity_mask", get_process_affinity_mask, METH_VARARGS,
+  {"get_process_affinity_mask", (PyCFunction)get_process_affinity_mask, METH_VARARGS,
     "get_process_affinity_mask(pid) ->\n\
 Get the process affinity mask of 'pid'.\n\n\
 You can get the affinity mask of any process running\n\
 in the system, even if you are not the process owner."},
-  {"set_process_affinity_mask", set_process_affinity_mask, METH_VARARGS,
+  {"set_process_affinity_mask", (PyCFunction)set_process_affinity_mask, METH_VARARGS,
     "set_process_affinity_mask(pid, affinity_mask) ->\n\
 Set the process affinity mask of 'pid' to 'affinity_mask'\n\
 and return the previous affinity mask.\n\n\
@@ -76,9 +76,17 @@ order to be able to call this."},
   {NULL, NULL},
 };
 
-PyMODINIT_FUNC
-init_affinity(void)
-{
-  Py_InitModule3("_affinity", methods, _affinity__doc__);
-}
+PyModuleDef affinity_module_def = {
+  PyModuleDef_HEAD_INIT,
+  "affinity",
+  _affinity__doc__,
+  -1,
+  methods,
+  NULL,NULL,NULL,NULL
+};
 
+PyMODINIT_FUNC
+PyInit_affinity(void)
+{
+  return PyModule_Create(&affinity_module_def);
+}
